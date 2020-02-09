@@ -1,0 +1,32 @@
+
+
+
+# stage 1
+It is downloading latest version of nodejs version from docker hub
+FROM node:latest as node
+
+Next we create a directory to hold the application code inside the image, this will be the working directory for your application:
+
+WORKDIR /app
+
+Copy the application code to app directory inside the image
+COPY . .
+
+
+npm install downloads a package and it's dependencies. npm install can be run with or without arguments.
+When run without arguments, npm install downloads dependencies defined in a package. json file and generates a node_modules folder with the installed modules.Fe
+
+npm install: installs dependencies, then calls the install from the package.json scripts field.
+
+npm run build: runs the build field from the package.json scripts field.
+
+RUN npm install
+
+RUN npm run build --prod
+
+# stage 2
+nginx is webserver
+
+FROM nginx:alpine
+COPY --from=node /app/dist/angular-app /usr/share/nginx/html
+
